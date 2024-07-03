@@ -1,0 +1,65 @@
+create database library;
+
+use library;
+
+create table Borrower(Rollno int(4),Name varchar(20),DateofIssue date,NameofBook varchar(30),Status varchar(10));
+
+insert into Borrower values(14,'Ram','2022-09-19','Operating System','I');
+
+insert into Borrower values(27,'Soham','2022-07-24','Object Oriented Programming','I');
+
+insert into Borrower values(34,'Mohan','2022-06-12','Microprocessor','I');
+
+insert into Borrower values(48,'Om','2022-04-19','Mechanics','I');
+
+select * from Borrower;
+
+create table Fine(Rollno int(4),Date date,Amount int(10));
+
+delimiter //
+create procedure calc_Fine(in r int(10),in b varchar(30))
+begin
+declare doi date;
+declare diff int(3);
+select DateofIssue into doi from Borrower where Rollno=r and NameofBook=b;
+select datediff(curdate(),doi) into diff;
+if diff>=15 and diff<=30 then
+insert into Fine values(r,curdate(),diff*5);
+end if;
+if diff>30 then
+insert into Fine values(r,curdate(),diff*50);
+end if;
+end//
+
+delimiter //
+create procedure submit(in r int(2))
+begin
+update Borrower set Status='R' where Rollno=r;
+delete from Fine where Rollno=r;
+end//
+
+call calc_Fine(14,'Operating System'); 
+
+select * from Fine; 
+
+call calc_Fine(27,'Object Oriented Programming'); 
+
+call calc_Fine(34,'Microprocessor'); 
+
+call calc_Fine(48,'Mechanics'); 
+
+select * from Fine; 
+
+call submit(14); 
+
+call submit(27); 
+
+call submit(48); 
+
+call submit(34); 
+
+select * from Fine; 
+
+select * from Borrower; 
+
+

@@ -1,0 +1,14 @@
+show dbs
+use bill
+db.pay.insert({Cust_ID:"A123",Product:"Milk",Amount:40,Status:"P"});
+db.pay.insert({Cust_ID:"A123",Product:"Parle_G",Amount:50,Status:"NP"});
+db.pay.insert({Cust_ID:"A123",Product:"Lays Chips",Amount:40,Status:"P"});
+db.pay.insert({Cust_ID:"B123",Product:"Mentos",Amount:10,Status:"P"});
+db.pay.insert({Cust_ID:"B123",Product:"Maggie",Amount:60,Status:"NP"});
+db.pay.find()
+db.pay.mapReduce(function(){emit(this.Cust_ID,this.Amount);},function(key,values){return Array.sum(values)},{query:{"Status":"NP"},out:"Bill_Amount"})
+var mapFunc1=function(){emit(this.Cust_ID,this.Amount);};
+var reduceFunc1=function(keyCustID,valuePrices){return Array.sum(valuePrices);};
+db.pay.mapReduce(mapFunc1,reduceFunc1,{out:"Map"})
+db.Bill_Amount.find()
+db.Map.find()

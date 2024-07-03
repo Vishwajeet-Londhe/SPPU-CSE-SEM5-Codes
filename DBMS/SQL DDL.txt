@@ -1,0 +1,31 @@
+show databases;
+create database employee;
+use employee;
+create table emp_details(emp_no int(10),emp_name varchar(30),emp_gender varchar(1),emp_sal int(30));
+show tables;
+alter table emp_details add emp_dept varchar(20);
+desc emp_details;
+insert into emp_details values(1,'Ram','M',300000,'designing');
+insert into emp_details values(2,'Soham','M',300000,'designing');
+insert into emp_details values(3,'Mohan','M',250000,'management');
+insert into emp_details values(4,'Om','M',400000,'coding');
+select * from emp_details;
+create table emp_info as select emp_no,emp_name,emp_gender from emp_details;
+select * from emp_info;
+truncate table emp_info;
+select * from emp_info;
+drop table emp_info;
+select * from emp_info;
+create view emp_view1 as select * from emp_details;
+create view emp_view2 as select * from emp_details where emp_dept="designing";
+select * from emp_view1;
+select * from emp_view2;
+update emp_details set emp_dept="coding" where emp_name="Mohan";
+select * from emp_details;
+drop view emp_view1;
+drop view emp_view2;
+create index emp_ind on emp_details(emp_no,emp_name);
+show index from emp_details;
+
+
+

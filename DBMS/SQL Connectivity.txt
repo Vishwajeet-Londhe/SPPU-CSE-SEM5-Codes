@@ -1,0 +1,56 @@
+package MySql;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class MySql {
+
+	public static void main(String[] args) throws Exception {
+		 int n,sno;
+		 String name,telephone,gender;
+		 Scanner in=new Scanner(System.in);
+		 Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/[Database]","[Username]","[password]");  
+		 Statement stmt=con.createStatement(); 
+		 PreparedStatement pstm=con.prepareStatement("insert into Personal values(?,?,?,?)");
+		 PreparedStatement pstm1=con.prepareStatement("delete from Personal where sno=?");
+		 System.out.print("Enter the no of record you want to insert:");
+		 n=in.nextInt();
+		 for(int i=0;i<n;i++) {
+			 System.out.print("\nData"+(i+1)+"\nEnter Sno:");
+			 sno=in.nextInt();
+			 pstm.setInt(1,sno);
+			 System.out.print("Enter Name:");
+			 name=in.next();
+			 pstm.setString(2,name);
+			 System.out.print("Enter Telephone:");
+			 telephone=in.next();
+			 pstm.setString(3,telephone);
+			 System.out.print("Enter Gender:");
+			 gender=in.next();
+			 pstm.setString(4,gender);
+			 pstm.executeUpdate();  
+		 }
+		 ResultSet rs=stmt.executeQuery("Select * from Personal;");
+		 System.out.println("\nAfter Insertion");
+		 System.out.println("Sno\tName\tTelephone\tGender");  
+		 while(rs.next()){ 
+				 System.out.println(rs.getInt(1)+"\t"+rs.getString(2)+"\t"+rs.getString(3)+"\t"+rs.getString(4));  
+		 }
+		 System.out.print("Enter the no of record you want to delete:");
+		 n=in.nextInt();
+		 for(int i=0;i<n;i++) {
+			 
+			 System.out.print("\nData"+(i+1)+"\nEnter Sno:");
+			 sno=in.nextInt();
+			 pstm1.setInt(1,sno);
+			 pstm1.executeUpdate();  
+		 }
+		 ResultSet rs1=stmt.executeQuery("Select * from Personal;");
+		 System.out.println("\nAfter Deletion");
+		 System.out.println("Sno\tName\tTelephone\tGender");  
+		 while(rs1.next()){ 
+				 System.out.println(rs1.getInt(1)+"\t"+rs1.getString(2)+"\t"+rs1.getString(3)+"\t"+rs1.getString(4));  
+		} 	 
+		 con.close();  
+	}
+}

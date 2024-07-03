@@ -1,0 +1,30 @@
+show dbs
+use book
+show collections;
+db.createCollection("library");
+db.library.insert({"bid":1,"name":"C++"});
+db.library.insert({"bid":2,"name":"SEPM","author":"Pressman"});
+db.library.insert({"bid":3,"name":"CN","author":"Forouzan","cost":700});
+db.library.find().pretty();
+db.library.remove({"bid":1});
+db.library.count();
+db.library.find().pretty();
+db.library.insert({"bid":1,"name":"C++"});
+db.library.find().pretty();
+db.library.find().sort({"bid":1})
+db.library.insert({"bid":4,"name":"SPOS","author":"Pearson","cost":500});
+db.library.find().pretty();
+db.library.find().sort({"bid":1})
+db.library.find({$and:[{"name":"CN"},{"cost":700}]}).pretty()
+db.library.insert({"bid":5,"name":"TOC","author":"Addison-Wesley","cost":600});
+db.library.insert({"bid":6,"name":"AI","author":"McGraw Hill Education","cost":800});
+db.library.find().pretty();
+db.library.find({$or:[{"cost":500},{"cost":800}]}).pretty()
+db.library.find({"cost":{$ne:500}})
+db.library.find({$nor:[{"cost":500},{"author":"Forouzan"}]})
+db.library.find({"cost":{$not:{$gt:800}}})
+db.library.insert({"bid":7,"name":"CC","author":"Wiley Publications","cost":400})
+db.library.find()
+db.library.update({'cost':400},{$set:{'cost':600}})
+db.library.update({'cost':800},{$set:{'cost':1200}})
+db.library.find().pretty();

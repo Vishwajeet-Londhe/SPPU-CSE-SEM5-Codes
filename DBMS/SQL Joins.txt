@@ -1,0 +1,34 @@
+show databases;
+create database customer;
+show databases;
+use customer;
+create table cust_tab(id int(4),name varchar(20),quantity int(4),price int(10),item varchar(20));
+show tables;
+create table cust_info(id int(4),name varchar(20),address varchar(20),mobile varchar(20));
+desc cust_tab;
+desc cust_info;
+alter table cust_tab add primary key(id);
+alter table cust_info add foreign key(id) references cust_tab(id);
+insert into cust_tab values(1,'Ram',1,15,'Milk');
+insert into cust_tab values(2,'Soham',2,20,'Toast');
+insert into cust_tab values(3,'Mohan',4,5,'Parle-G');
+insert into cust_tab values(4,'Om',2,20,'Coca Cola');
+select * from cust_tab;
+alter table cust_tab add totalprice int(4);
+update cust_tab set totalprice=quantity*price where id=1;
+update cust_tab set totalprice=quantity*price where id=2;
+update cust_tab set totalprice=quantity*price where id=3;
+update cust_tab set totalprice=quantity*price where id=4;
+select * from cust_tab;
+insert into cust_info values(1,'Ram','Pune','9943569081');
+insert into cust_info values(2,'Soham','Pune','9978491281');
+insert into cust_info values(3,'Mohan','Nashik','8782356712');
+insert into cust_info values(4,'Om','Nagpur','7823450189');
+select * from cust_info;
+select cust_tab.id,cust_tab.name,cust_tab.item,cust_info.address from cust_tab inner join cust_info on cust_tab.id=cust_info.id;
+select cust_tab.id,cust_tab.name,cust_tab.item,cust_info.address from cust_tab left outer join cust_info on cust_tab.id=cust_info.id;
+select cust_tab.id,cust_tab.name,cust_tab.item,cust_info.address from cust_tab right outer join cust_info on cust_tab.id=cust_info.id;
+create view mul_view as select cust_tab.id,cust_tab.name,cust_info.address from cust_tab,cust_info where cust_info.id=cust_tab.id;
+select * from mul_view;
+
+
