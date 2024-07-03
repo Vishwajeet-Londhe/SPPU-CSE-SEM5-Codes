@@ -1,0 +1,4 @@
+A	AREG
+B	-
+U	CREG
+V	DREG
