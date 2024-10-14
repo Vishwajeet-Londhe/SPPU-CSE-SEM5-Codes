@@ -1,0 +1,19 @@
+create table circle(Radius number,Area number)
+
+Declare 
+  rad number; 
+  area number; 
+Begin 
+	for rad in 5..9 loop 
+	area := 3.14*POWER(rad,2); 
+    insert into circle(Radius,Area) 
+	Values(rad,area); 
+ 
+END LOOP; 
+COMMIT; 
+	Dbms_Output.Put_Line('RADIUS | AREA'); 
+	Dbms_Output.Put_Line('_____________'); 
+	for shu in (select Radius,Area from circle) LOOP 
+		Dbms_output.put_line(shu.Radius || '   |   ' || shu.Area); 
+	END loop; 
+END; 
