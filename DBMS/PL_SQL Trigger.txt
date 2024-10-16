@@ -1,0 +1,59 @@
+create table library( 
+book_id int primary key, 
+book_name varchar(25), 
+author_name varchar(40), 
+price int 
+); 
+
+insert into library(book_id, book_name, author_name, price) 
+values(1,'early india','ramila thapar',1200);
+
+insert into library(book_id, book_name, author_name, price) 
+values(2,'verity','collen hoover',1600);
+
+insert into library(book_id, book_name, author_name, price) 
+values(3,'Nelson mandela','Hovely reads',900);
+
+insert into library(book_id, book_name, author_name, price) 
+values(4,'everyday gita','sunita pant',1500); 
+
+insert into library(book_id, book_name, author_name, price) 
+values(5,'b1','a1',2000); 
+
+create table library_audit( 
+old_book_id int primary key, 
+old_book_name varchar(25), 
+old_author_name varchar(40), 
+old_price int, 
+operation_type varchar(20)
+); 
+
+create or replace trigger before_library_update 
+before  
+update on library 
+for each row 
+begin  
+insert into 
+library_audit(old_book_id,old_book_name,old_author_name,old_price,operation_type) 
+values(:OLD.book_id, :OLD.book_name, :OLD.author_name, :OLD.price, 'update'); 
+end;
+
+UPDATE Library  
+SET book_name = 'Gatsby (Updated)', author_name = 'Fitzgerald'  
+WHERE book_id = 1;
+
+create or replace trigger before_library_delete 
+before  
+delete on library 
+for each row 
+begin  
+insert into 
+library_audit(old_book_id,old_book_name,old_author_name,old_price,operation_type) 
+values(:OLD.book_id, :OLD.book_name, :OLD.author_name, :OLD.price, 'delete'); 
+end;
+
+DELETE FROM Library WHERE book_id = 2;
+
+select* from library_audit
+
+select* from library
