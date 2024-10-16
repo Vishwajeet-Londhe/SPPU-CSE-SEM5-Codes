@@ -1,0 +1,101 @@
+Creating world_cricket table 
+CREATE TABLE world_cricket(  
+player_jersey_no INT,  
+player_name VARCHAR2(50),  
+player_desc VARCHAR2(50),  
+team_name VARCHAR2(30),  
+ipl_team_name VARCHAR2(20),  
+PRIMARY KEY (player_jersey_no)  
+);
+
+INSERT INTO world_cricket VALUES(45, 'Rohit', 'opening batsman', 'India', 'MI');
+
+INSERT INTO world_cricket VALUES(18, 'Virat', '1st down batsman', 'India', 'RCB'); 
+
+INSERT INTO world_cricket VALUES(93, 'Bumrah', 'fast bowler', 'India', 'MI');
+
+INSERT INTO world_cricket VALUES(17, 'AB Devilliers', 'WK-Batter', 'South Africa', 'RCB');
+
+INSERT INTO world_cricket VALUES(10, 'David Miller', '5th down batter', 'South Africa', 'GT');
+
+INSERT INTO world_cricket VALUES(333, 'Chris Gayle', 'opening batsman', 'West Indies', 'PBK');
+
+INSERT INTO world_cricket VALUES(49, 'Steve Smith', '2nd down batter', 'Australia', 'RR');
+
+INSERT INTO world_cricket VALUES(22, 'Kane Williamson', '3rd down batter', 'New Zealand', 'GT');
+
+INSERT INTO world_cricket VALUES(55, 'Ben Stokes', '4th down batter', 'England', 'CSK');
+
+INSERT INTO world_cricket VALUES(24, 'Kevin Pietersen', '1st down batter', 'England', 'DC');
+
+Creating coach table 
+CREATE TABLE coach( 
+coach_name VARCHAR2(20), 
+coach_role VARCHAR2(20),  
+PRIMARY KEY (coach_role) 
+);
+
+INSERT INTO coach VALUES ('Vikram Rathour', 'Batting Coach'); 
+
+INSERT INTO coach VALUES ('Gautam Gambhir', 'Head Coach'); 
+
+INSERT INTO coach VALUES ('Jonty Rhodes', 'Fielding Coach');  
+
+INSERT INTO coach VALUES ('Wasim Akram', 'Bowling Coach');  
+
+INSERT INTO coach VALUES ('Kamlesh Jain', 'Physio');  
+
+INSERT INTO coach VALUES ('Rajal Arora', 'Media Manager');
+ 
+CREATE TABLE players_and_their_salaries (  
+player_name VARCHAR2(20),  
+team_name VARCHAR2(20), 
+player_salary VARCHAR2(7) NOT NULL, 
+PRIMARY KEY (player_name) 
+);
+
+-- Inserting data into players_and_their_salaries 
+INSERT INTO players_and_their_salaries VALUES ('Rohit Sharma', 'MI', '16cr');  
+
+INSERT INTO players_and_their_salaries VALUES ('Virat Kohli', 'RCB', '15cr');  
+
+INSERT INTO players_and_their_salaries VALUES ('Bumrah', 'MI', '10cr');  
+
+INSERT INTO players_and_their_salaries VALUES ('Ben Stokes', 'CSK', '12cr');  
+
+INSERT INTO players_and_their_salaries VALUES ('Chris Gayle', 'PBK', '2cr');  
+
+INSERT INTO players_and_their_salaries VALUES ('AB Devilliers', 'RCB', '14cr');  
+
+INSERT INTO players_and_their_salaries VALUES ('David Miller', 'GT', '5cr');
+
+-- Selecting all data from world_cricket table 
+SELECT * FROM world_cricket; 
+
+-- Selecting all data from coach table 
+SELECT * FROM coach; 
+
+-- Selecting all data from players_and_their_salaries table 
+SELECT * FROM players_and_their_salaries;
+
+-- Creating a view for MI team players 
+CREATE VIEW view_emp AS 
+SELECT player_name, team_name 
+FROM world_cricket 
+WHERE ipl_team_name = 'MI';
+
+-- Selecting data from view 
+SELECT * FROM view_emp;
+
+-- Altering coach table to add rank_id column 
+ALTER TABLE coach 
+ADD rank_id NUMBER(5);
+
+DELETE FROM world_cricket
+WHERE player_jersey_no = 18;
+
+- Selecting all data from coach table after alteration 
+SELECT * FROM coach; 
+
+-- Dropping the coach table 
+DROP TABLE coach;
