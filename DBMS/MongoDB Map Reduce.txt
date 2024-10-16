@@ -1,14 +1,24 @@
-show dbs
-use bill
-db.pay.insert({Cust_ID:"A123",Product:"Milk",Amount:40,Status:"P"});
-db.pay.insert({Cust_ID:"A123",Product:"Parle_G",Amount:50,Status:"NP"});
-db.pay.insert({Cust_ID:"A123",Product:"Lays Chips",Amount:40,Status:"P"});
-db.pay.insert({Cust_ID:"B123",Product:"Mentos",Amount:10,Status:"P"});
-db.pay.insert({Cust_ID:"B123",Product:"Maggie",Amount:60,Status:"NP"});
-db.pay.find()
-db.pay.mapReduce(function(){emit(this.Cust_ID,this.Amount);},function(key,values){return Array.sum(values)},{query:{"Status":"NP"},out:"Bill_Amount"})
-var mapFunc1=function(){emit(this.Cust_ID,this.Amount);};
-var reduceFunc1=function(keyCustID,valuePrices){return Array.sum(valuePrices);};
-db.pay.mapReduce(mapFunc1,reduceFunc1,{out:"Map"})
-db.Bill_Amount.find()
-db.Map.find()
+db.sales.insertMany([
+  { "_id": 1, "product": "Laptop", "quantity": 3, "price": 1000 },
+  { "_id": 2, "product": "Mouse", "quantity": 5, "price": 50 },
+  { "_id": 3, "product": "Laptop", "quantity": 2, "price": 1000 },
+  { "_id": 4, "product": "Keyboard", "quantity": 10, "price": 100 },
+  { "_id": 5, "product": "Mouse", "quantity": 3, "price": 50 }
+]);
+
+var mapFunction = function() {
+  emit(this.product, this.quantity * this.price);  // Key: product, Value: total revenue (quantity * price)
+};
+var reduceFunction = function(key, values) {
+  return Array.sum(values);  // Sum the values for the product
+};
+
+db.sales.mapReduce(
+  mapFunction,        // The map function
+  reduceFunction,     // The reduce function
+  {
+    out: "total_revenue_per_product"  // Output collection name
+  }
+);
+
+db.total_revenue_per_product.find();
