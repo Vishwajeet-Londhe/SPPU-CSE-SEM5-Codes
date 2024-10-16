@@ -1,4 +1,3 @@
-Creating world_cricket table 
 CREATE TABLE world_cricket(  
 player_jersey_no INT,  
 player_name VARCHAR2(50),  
@@ -28,7 +27,6 @@ INSERT INTO world_cricket VALUES(55, 'Ben Stokes', '4th down batter', 'England',
 
 INSERT INTO world_cricket VALUES(24, 'Kevin Pietersen', '1st down batter', 'England', 'DC');
 
-Creating coach table 
 CREATE TABLE coach( 
 coach_name VARCHAR2(20), 
 coach_role VARCHAR2(20),  
