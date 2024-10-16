@@ -1,24 +1,44 @@
-show dbs
-use customer
-db.cust_table.insert({Item_id:1,Cust_Name:"Ram",Product:"Milk",Amount:40});
-db.cust_table.insert({Item_id:2,Cust_Name:"Ram",Product:"Parle_G",Amount:50});
-db.cust_table.insert({Item_id:3,Cust_Name:"Mohan",Product:"Lays Chips",Amount:40});
-db.cust_table.insert({Item_id:4,Cust_Name:"Shivam",Product:"Mentos",Amount:10});
-db.cust_table.insert({Item_id:5,Cust_Name:"Mohan",Product:"Maggie",Amount:60});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$sum:"$Amount"}}});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$avg:"$Amount"}}});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$min:"$Amount"}}});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$max:"$Amount"}}});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$first:"$Amount"}}});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$last:"$Amount"}}});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$psuh:"$Amount"}}});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$sum:1}}});
-db.cust_table.aggregate({$group:{_id:"$Cust_Name","total":{$addToSet:"$Amount"}}});
-db.cust_table.createIndex({'Item_id':1})
-db.cust_table.createIndex({'Item_id':2})
-db.cust_table.createIndex({'Item_id':4})
-db.cust_table.getIndexes()
-db.cust_table.dropIndex({'Item_id':4})
-db.cust_table.dropIndex({'Item_id':1})
-db.cust_table.getIndexes()
-db.cust_table.getIndexes()
+db.orders.insertMany([
+  {
+    "_id": 1,
+    "customer": "John Doe",
+    "items": [
+      { "product": "Laptop", "quantity": 1, "price": 1000 },
+      { "product": "Mouse", "quantity": 2, "price": 50 }
+    ],
+    "total": 1100
+  },
+  {
+    "_id": 2,
+    "customer": "Jane Smith",
+    "items": [
+      { "product": "Laptop", "quantity": 1, "price": 1000 },
+      { "product": "Keyboard", "quantity": 1, "price": 150 }
+    ],
+    "total": 1150
+  }
+]);
+
+db.orders.aggregate([
+  { $unwind: "$items" },  // Unwind the items array
+  { $group: {
+      _id: "$items.product",  // Group by product name
+      totalQuantity: { $sum: "$items.quantity" },  // Sum of quantity sold
+      totalRevenue: { $sum: { $multiply: [ "$items.quantity", "$items.price" ] } }  // Calculate total revenue
+  }},
+  { $sort: { totalRevenue: -1 } }  // Sort by total revenue in descending order
+]);
+
+db.customers.insertMany([
+  { "_id": 1, "name": "John Doe", "age": 25, "location": "New York" },
+  { "_id": 2, "name": "Jane Smith", "age": 30, "location": "London" },
+  { "_id": 3, "name": "Bob Johnson", "age": 22, "location": "Sydney" }
+]);
+
+db.customers.createIndex({ age: 1 });
+
+db.customers.find({ age: { $gt: 25 } });
+
+db.customers.createIndex({ name: 1, age: -1 });// Compound index on `name` (ascending) and `age` (descending)
+
+db.customers.find({ name: "John Doe", age: { $gt: 20 } });
