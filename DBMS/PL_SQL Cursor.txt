@@ -1,68 +1,54 @@
-create database class;
-use class;
-create table O_RollCall(roll_no int(3),name varchar(20));
-create table N_RollCall(roll_no int(3),name varchar(20));
-insert into O_RollCall values (1,'Himanshu');
-insert into O_RollCall values (2,'Ram');
-insert into O_RollCall values (3,'Soham');
-insert into O_RollCall values (5,'Mohan');
-insert into O_RollCall values (6,'Om');
-insert into O_RollCall values (9,'Yash');
-insert into O_RollCall values (11,'Mayur');
-select * from O_RollCall;
-select * from N_RollCall;
-delimiter //
-create procedure cursor_proc_p1()
-begin
-declare fin integer default 0;
-declare old_roll int(3);
-declare old_name varchar(20);
-declare new_roll int(3);
-declare old_csr cursor for select roll_no,name from O_RollCall;
-declare new_csr cursor for select roll_no from N_RollCall;
-declare continue handler for not found set fin=1;
-open old_csr;
-open new_csr;
-ss:loop
-fetch old_csr into old_roll,old_name;
-fetch new_csr into new_roll;
-if fin=1 then
-leave ss;
-end if;
-if old_roll<>new_roll then
-insert into N_RollCall values(old_roll,old_name);
-end if;
-end loop;
-close old_csr;
-close new_csr;
-end //
-create procedure cursor_proc_p2(in r1 int)
-begin
-declare r2 int;
-declare exit_loop boolean;
-declare c1 cursor for select roll_no from O_RollCall
-where roll_no>r1;
-declare continue handler for not found set
-exit_loop=true;
-open c1;
-e_loop:loop
-fetch c1 into r2;
-if not exists(select * from N_RollCall where roll_no=r2)
-then
-insert into N_RollCall select * from O_RollCall where roll_no=r2;
-end if;
-if exit_loop
-then
-close c1;
-leave e_loop;
-end if;
-end loop e_loop;
-end;//
-call cursor_proc_p2(5); //
-select * from O_RollCall; //
-select * from N_RollCall; //
-call cursor_proc_p2(3); //
-call cursor_proc_p1(); //
-select * from O_RollCall; //
-select * from N_RollCall; //
+CREATE TABLE Student ( 
+    Student_ID INT PRIMARY KEY, 
+    Student_Name VARCHAR(100), 
+    Marks INT, 
+    Category VARCHAR2(20)  
+);
 
+INSERT INTO Student (Student_ID, Student_Name, Marks) 
+VALUES (1, 'John Doe', 1200);
+
+INSERT INTO Student (Student_ID, Student_Name, Marks) 
+VALUES (2, 'Jane Smith', 950);
+
+INSERT INTO Student (Student_ID, Student_Name, Marks) 
+VALUES (3, 'Emily Johnson', 880);
+
+INSERT INTO Student (Student_ID, Student_Name, Marks) 
+VALUES (4, 'Michael Brown', 800);
+
+CREATE OR REPLACE FUNCTION CategorizeMarks(marks INT) RETURN VARCHAR2 IS 
+    v_category VARCHAR2(20); 
+BEGIN 
+    IF marks BETWEEN 999 AND 1500 THEN 
+        v_category := 'Distinction'; 
+    ELSIF marks BETWEEN 900 AND 998 THEN 
+        v_category := 'First Class'; 
+    ELSIF marks BETWEEN 825 AND 899 THEN 
+        v_category := 'Second Class'; 
+    ELSE 
+        v_category := 'Pass'; 
+    END IF; 
+    RETURN v_category; 
+EXCEPTION 
+    WHEN OTHERS THEN 
+        RETURN 'Error'; 
+END;
+/
+
+CREATE OR REPLACE PROCEDURE UpdateStudentCategory IS 
+BEGIN 
+    FOR rec IN (SELECT Student_ID, Marks FROM Student) LOOP 
+        UPDATE Student 
+        SET Category = CategorizeMarks(rec.Marks) 
+        WHERE Student_ID = rec.Student_ID; 
+    END LOOP; 
+     
+    COMMIT; 
+END;
+
+BEGIN 
+    UpdateStudentCategory; 
+END;
+
+Select* from Student
