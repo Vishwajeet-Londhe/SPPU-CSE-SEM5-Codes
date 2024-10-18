@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class MemoryManagement {
+public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -36,11 +36,16 @@ public class MemoryManagement {
 
         // Switch case to handle the selected memory allocation strategy
         switch (choice) {
-            case 1 -> allocateMemory(processes, blocks, display, "First Fit");
-            case 2 -> allocateMemory(processes, blocks, display, "Best Fit");
-            case 3 -> allocateMemory(processes, blocks, display, "Worst Fit");
-            case 4 -> nextFitAllocation(processes, blocks, display);  // Next Fit has a separate method
-            default -> System.out.println("Invalid choice. Exiting program.");
+            case 1 :
+                allocateMemory(processes, blocks, display, "First Fit");
+            case 2 : 
+                allocateMemory(processes, blocks, display, "Best Fit");
+            case 3 : 
+                allocateMemory(processes, blocks, display, "Worst Fit");
+            case 4 :
+                nextFitAllocation(processes, blocks, display);  // Next Fit has a separate method
+            default : 
+                System.out.println("Invalid choice. Exiting program.");
         }
         scanner.close();
     }
@@ -50,13 +55,17 @@ public class MemoryManagement {
         int blockNo = blocks.length, sum = 0, total = Arrays.stream(blocks).sum(); // Total memory sum calculation
         boolean[] flag = new boolean[blockNo]; // Flag to check if a block is already allocated
 
-        // Loop through processes to allocate them to memory blocks based on the strategy
+        int idx=0;
+        
         for (int i = 0; i < processes.length; i++) {
-            int idx = switch (strategy) {
-                case "First Fit" -> findBlockFirstFit(blocks, flag, processes[i]);
-                case "Best Fit" -> findBlockBestFit(blocks, flag, processes[i]);
-                case "Worst Fit" -> findBlockWorstFit(blocks, flag, processes[i]);
-                default -> -1;
+            switch (strategy) {
+                case "First Fit" :
+                    findBlockFirstFit(blocks, flag, processes[i]);
+                case "Best Fit" :
+                    findBlockBestFit(blocks, flag, processes[i]);
+                case "Worst Fit" :
+                    findBlockWorstFit(blocks, flag, processes[i]);
+               
             };
             if (idx != -1) {
                 flag[idx] = true; // Mark block as allocated
