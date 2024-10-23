@@ -9,7 +9,7 @@ import warnings
 warnings.filterwarnings("ignore")
 %matplotlib inline
 
-iris-pd.read_csv("/content/iris.csv")
+iris=pd.read_csv("https://media.githubusercontent.com/media/neurospin/pystatsml/refs/heads/master/datasets/iris.csv")
 iris
 
 x= iris.iloc[:,:4]
@@ -28,7 +28,7 @@ score
 from sklearn.decomposition import PCA
 
 pca =PCA(n_components=2)
-pca_array =pca.fit_transform(iris.drop(['variety'], axis=1))
+pca_array = pca.fit_transform(iris.drop(['species'], axis=1))
 pca_df=pd.DataFrame(pca_array,columns=["PC1","PC2"])
 pca_df.head()
 
