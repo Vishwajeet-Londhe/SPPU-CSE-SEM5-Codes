@@ -4,11 +4,16 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load Iris dataset
-iris = pd.read_csv("/content/iris.csv")
+iris = pd.read_csv("https://media.githubusercontent.com/media/neurospin/pystatsml/refs/heads/master/datasets/iris.csv")
 
-# Extract Sepal Length and Sepal Width for example
-sepal_length = iris['sepal.length']
-sepal_width = iris['sepal.width']
+# Check the column names
+print("Column names in the dataset:")
+print(iris.columns.tolist())  # Print as a list to see the actual names
+
+# Extract Sepal Length and Sepal Width
+# Make sure to use the correct names after checking
+sepal_length = iris['sepal_length']  # Update the name if necessary
+sepal_width = iris['sepal_width']  # Update the name if necessary
 
 # Compute Mean
 mean_sepal_length = np.mean(sepal_length)
