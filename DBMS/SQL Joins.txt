@@ -14,9 +14,9 @@ create table department
 
 INSERT INTO inst VALUES(1,'Vishwajeet',50000)
 
-INSERT INTO inst VALUES(2,'Apurva',51000)
+INSERT INTO inst VALUES(2,'Sahil',51000)
 
-INSERT INTO inst VALUES(3,'Sahil',52000)
+INSERT INTO inst VALUES(3,'Apurva',52000)
 
 INSERT INTO inst VALUES(4,'Rutuja',55000)
 
