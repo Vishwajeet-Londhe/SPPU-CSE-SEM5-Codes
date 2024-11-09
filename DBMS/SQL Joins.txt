@@ -12,31 +12,31 @@ create table department
     inst_id number(20) 
 )
 
-INSERT INTO inst VALUES(1,'Prachi',50000)
+INSERT INTO inst VALUES(1,'Vishwajeet',50000)
 
 INSERT INTO inst VALUES(2,'Apurva',51000)
 
-INSERT INTO inst VALUES(3,'Sayali',52000)
+INSERT INTO inst VALUES(3,'Sahil',52000)
 
-INSERT INTO inst VALUES(4,'Sakshi',55000)
+INSERT INTO inst VALUES(4,'Anushka',55000)
 
-INSERT INTO inst VALUES(5,'Tanaya',40000)
+INSERT INTO inst VALUES(5,'Shivam',40000)
 
-INSERT INTO inst VALUES(6,'Aarya',30000)
+INSERT INTO inst VALUES(6,'Hemali',30000)
 
 INSERT INTO inst VALUES(7,'Rutuja',60000)
 
-INSERT INTO inst VALUES(8,'Aakansha',40000)
+INSERT INTO inst VALUES(8,'Rituja',40000)
 
-INSERT INTO inst VALUES(9,'Tahseen',45000)
+INSERT INTO inst VALUES(9,'Omkar',45000)
 
-INSERT INTO inst VALUES(10,'Apurva',50000)
+INSERT INTO inst VALUES(10,'Varad',50000)
 
-INSERT INTO inst VALUES(11,'Kanishka',20000)
+INSERT INTO inst VALUES(11,'Shreya',20000)
 
-INSERT INTO inst VALUES(12,'Aditi',45000)
+INSERT INTO inst VALUES(12,'Krishna',45000)
 
-INSERT INTO inst VALUES(13,'Shubham',30000)
+INSERT INTO inst VALUES(13,'Radha',30000)
 
 Select * from inst
 
