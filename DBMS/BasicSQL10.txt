@@ -1,0 +1,90 @@
+CREATE SEQUENCE owner_seq START WITH 1 INCREMENT BY 1;
+
+CREATE SEQUENCE property_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE OWNERS (
+    OwnerNo INT PRIMARY KEY,
+    OwnerName VARCHAR2(100),
+    Phno VARCHAR2(15)
+);
+
+CREATE TABLE PROPERTIES (
+    Pno INT PRIMARY KEY,
+    Type VARCHAR2(50),
+    Sq_Ft_Area INT,
+    Rent DECIMAL(10, 2),
+    Address VARCHAR2(255),
+    Status VARCHAR2(50),
+    OwnerNo INT,
+    CONSTRAINT fk_owner FOREIGN KEY (OwnerNo) REFERENCES OWNERS(OwnerNo)
+);
+
+INSERT INTO OWNERS (OwnerNo, OwnerName, Phno)
+VALUES (owner_seq.NEXTVAL, 'Vishwajeet', '8459652020'); 
+
+INSERT INTO OWNERS (OwnerNo, OwnerName, Phno) 
+VALUES (owner_seq.NEXTVAL, 'Ranjeet', '7058580091'); 
+
+INSERT INTO OWNERS (OwnerNo, OwnerName, Phno) 
+VALUES (owner_seq.NEXTVAL, 'Aditi', '6787667876'); 
+
+INSERT INTO OWNERS (OwnerNo, OwnerName, Phno)
+VALUES (owner_seq.NEXTVAL, 'Akanksha', '8977757587');
+
+-- Inserting properties with property_seq for Pno and using owner_seq for OwnerNo
+INSERT INTO PROPERTIES (Pno, Type, Sq_Ft_Area, Rent, Address, Status, OwnerNo)
+VALUES (property_seq.NEXTVAL, '1BHK', 600, 10000, 'Kothrud', 'Not Rented', 1);
+
+INSERT INTO PROPERTIES (Pno, Type, Sq_Ft_Area, Rent, Address, Status, OwnerNo)
+VALUES (property_seq.NEXTVAL, '2BHK', 800, 15000, 'Kothrud', 'Rented', 2);
+
+INSERT INTO PROPERTIES (Pno, Type, Sq_Ft_Area, Rent, Address, Status, OwnerNo)
+VALUES (property_seq.NEXTVAL, '1BHK', 650, 12000, 'Kothrud', 'Not Rented', 3);
+
+INSERT INTO PROPERTIES (Pno, Type, Sq_Ft_Area, Rent, Address, Status, OwnerNo)
+VALUES (property_seq.NEXTVAL, '3BHK', 1200, 25000, 'Kothrud', 'Rented', 4);
+
+INSERT INTO PROPERTIES (Pno, Type, Sq_Ft_Area, Rent, Address, Status, OwnerNo)
+VALUES (property_seq.NEXTVAL, '1BHK', 550, 9000, 'Kothrud', 'Not Rented', 1);
+
+INSERT INTO PROPERTIES (Pno, Type, Sq_Ft_Area, Rent, Address, Status, OwnerNo)
+VALUES (property_seq.NEXTVAL, '2BHK', 900, 18000, 'Kothrud', 'Not Rented', 2);
+
+SELECT * FROM OWNERS;
+SELECT * FROM PROPERTIES;
+
+SELECT * 
+FROM PROPERTIES 
+WHERE Type = '1BHK' 
+AND Address = 'Kothrud' 
+AND Status = 'Not Rented';
+
+SELECT P.* 
+FROM PROPERTIES P
+JOIN OWNERS O ON P.OwnerNo = O.OwnerNo
+WHERE O.OwnerName = 'Gopal';
+
+SELECT OwnerNo, MIN(Sq_Ft_Area) AS SmallestPropertyArea
+FROM PROPERTIES
+GROUP BY OwnerNo;
+
+SELECT * 
+FROM PROPERTIES 
+WHERE Address = 'Kothrud'
+ORDER BY Rent DESC;
+
+CREATE OR REPLACE VIEW OwnerProperties AS
+SELECT O.OwnerName, P.Pno, P.Type, P.Address, P.Rent
+FROM PROPERTIES P
+JOIN OWNERS O ON P.OwnerNo = O.OwnerNo;
+
+SELECT OwnerName 
+FROM OWNERS
+WHERE OwnerName LIKE '%ee%';
+
+SELECT Pno, Type, Address, Rent, Status 
+FROM PROPERTIES
+WHERE Rent > 15000 AND Rent < 22000;
+
+SELECT DISTINCT Type 
+FROM PROPERTIES;
