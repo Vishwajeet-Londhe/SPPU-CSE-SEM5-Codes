@@ -1,0 +1,47 @@
+db.student.insertMany([
+  { RollNo: 1, name: "Alice", class: "TECompA", marks: 950, sports: ["football", "basketball"] },
+  { RollNo: 2, name: "Bob", class: "TECompA", marks: 600, sports: ["cricket"] },
+  { RollNo: 3, name: "Charlie", class: "TECompB", marks: 880, sports: ["football"] },
+  { RollNo: 4, name: "David", class: "TECompA", marks: 400, sports: ["tennis"] },
+  { RollNo: 5, name: "Eva", class: "TECompB", marks: 1200, sports: ["volleyball", "football"] },
+  { RollNo: 6, name: "Fay", class: "TECompA", marks: 1100, sports: ["badminton"] },
+  // Add more documents as needed
+]);
+
+db.student.createIndex({ name: 1 });
+db.student.find().explain("executionStats");
+
+db.student.aggregate([
+  { $match: { class: { $regex: /^TE/ } } },
+  { $sort: { marks: -1 } },
+  { $limit: 5 },
+  { $project: { RollNo: 1, name: 1, class: 1, marks: 1 } }
+]);
+
+db.student.aggregate([
+  { $group: { _id: "$class", maxMarks: { $max: "$marks" } } }
+]);
+
+db.student.aggregate([
+  { $group: { _id: "$class", averageMarks: { $avg: "$marks" } } }
+]);
+
+db.student.find(
+  { class: "TECompA" },
+  { RollNo: 1, name: 1, _id: 0 }
+);
+
+db.student.find(
+  { class: "TECompA", marks: { $lt: 600 } },
+  { RollNo: 1, name: 1, marks: 1, _id: 0 }
+);
+
+db.student.find(
+  {},
+  { name: 1, class: 1, marks: 1, _id: 0 }
+);
+
+db.student.find(
+  { sports: "football" },
+  { RollNo: 1, name: 1, class: 1, marks: 1, sports: 1, _id: 0 }
+);
