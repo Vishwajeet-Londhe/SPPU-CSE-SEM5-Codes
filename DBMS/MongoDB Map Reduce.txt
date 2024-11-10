@@ -1,24 +1,79 @@
-db.sales.insertMany([
-  { "_id": 1, "product": "Laptop", "quantity": 3, "price": 1000 },
-  { "_id": 2, "product": "Mouse", "quantity": 5, "price": 50 },
-  { "_id": 3, "product": "Laptop", "quantity": 2, "price": 1000 },
-  { "_id": 4, "product": "Keyboard", "quantity": 10, "price": 100 },
-  { "_id": 5, "product": "Mouse", "quantity": 3, "price": 50 }
+db.customer.insertMany([
+  { name: "Alice", emailID: "alice@example.com", profession: "Engineer", gender: "Female", bill_amount: 3000 },
+  { name: "Bob", emailID: "bob@example.com", profession: "Business", gender: "Male", bill_amount: 7000 },
+  { name: "Charlie", emailID: "charlie@example.com", profession: "Doctor", gender: "Male", bill_amount: 4500 },
+  { name: "David", emailID: "david@example.com", profession: "Engineer", gender: "Male", bill_amount: 5500 },
+  { name: "Eva", emailID: "eva@example.com", profession: "Lawyer", gender: "Female", bill_amount: 6000 },
+  { name: "Brian", emailID: "brian@example.com", profession: "Business", gender: "Male", bill_amount: 12000 },
+  { name: "Sophia", emailID: "sophia@example.com", profession: "Teacher", gender: "Female", bill_amount: 2000 }
 ]);
 
-var mapFunction = function() {
-  emit(this.product, this.quantity * this.price);  // Key: product, Value: total revenue (quantity * price)
-};
-var reduceFunction = function(key, values) {
-  return Array.sum(values);  // Sum the values for the product
-};
-
-db.sales.mapReduce(
-  mapFunction,        // The map function
-  reduceFunction,     // The reduce function
-  {
-    out: "total_revenue_per_product"  // Output collection name
-  }
+db.customer.mapReduce(
+  function() { emit(this.gender, 1); },
+  function(key, values) { return Array.sum(values); },
+  { out: "gender_count" }
 );
 
-db.total_revenue_per_product.find();
+// View the results
+db.gender_count.find();
+
+db.customer.mapReduce(
+  function() { emit(this.profession, 1); },
+  function(key, values) { return Array.sum(values); },
+  { out: "profession_count" }
+);
+
+// View the results
+db.profession_count.find();
+
+db.customer.mapReduce(
+  function() { 
+    if (this.bill_amount > 5000) {
+      emit(this.name, { emailID: this.emailID, profession: this.profession, gender: this.gender, bill_amount: this.bill_amount });
+    }
+  },
+  function(key, values) { return values[0]; },
+  { out: "high_bill_customers" }
+);
+
+// View the results
+db.high_bill_customers.find();
+
+db.customer.remove({ name: "Alice" });
+
+db.customer.insert({ name: "Alice", emailID: "alice@example.com", profession: "Engineer", gender: "Female", bill_amount: 3500 });
+
+db.customer.mapReduce(
+  function() { 
+    if (this.name.startsWith('B')) {
+      emit(this.name, { emailID: this.emailID, profession: this.profession, gender: this.gender, bill_amount: this.bill_amount });
+    }
+  },
+  function(key, values) { return values[0]; },
+  { out: "name_starts_with_b" }
+);
+
+// View the results
+db.name_starts_with_b.find();
+
+db.customer.mapReduce(
+  function() { 
+    if (this.profession === "Business") {
+      emit(this.name, { emailID: this.emailID, profession: this.profession, gender: this.gender, bill_amount: this.bill_amount });
+    }
+  },
+  function(key, values) { return values[0]; },
+  { out: "business_profession_customers" }
+);
+
+// View the results
+db.business_profession_customers.find();
+
+db.customer.mapReduce(
+  function() { emit(this.bill_amount, { name: this.name, emailID: this.emailID, profession: this.profession, gender: this.gender }); },
+  function(key, values) { return values[0]; },
+  { out: "sorted_by_bill_amount" }
+);
+
+// View the results in descending order
+db.sorted_by_bill_amount.find().sort({ _id: -1 });
