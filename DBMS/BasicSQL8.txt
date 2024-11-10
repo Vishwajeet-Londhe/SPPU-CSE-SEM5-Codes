@@ -1,0 +1,58 @@
+CREATE TABLE Cust_Master (
+    Cust_no VARCHAR(10) PRIMARY KEY,
+    Cust_name VARCHAR(100),
+    Qty_Ordered INT,
+    Order_date DATE,
+    Cust_addr VARCHAR(255)
+);
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr)
+VALUES ('C1001', 'Vishwajeet', 20, TO_DATE('2024-10-01', 'YYYY-MM-DD'), 'Pune');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1002', 'Samantha', 15, TO_DATE('2024-10-02', 'YYYY-MM-DD'), 'Banglore');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1003', 'Shivani', 30, TO_DATE('2024-10-03', 'YYYY-MM-DD'), 'Manglore');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1004', 'Vaibhavi', 25, TO_DATE('2024-10-04', 'YYYY-MM-DD'), 'Manglore');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1005', 'Sahil', 40, TO_DATE('2024-10-05', 'YYYY-MM-DD'), 'Banglore');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1006', 'Abhi', 18, TO_DATE('2024-10-06', 'YYYY-MM-DD'), 'Manglore');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1007', 'Bhairavi', 22, TO_DATE('2024-10-07', 'YYYY-MM-DD'), 'Manglore');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1008', 'Sujata', 35, TO_DATE('2024-10-08', 'YYYY-MM-DD'), 'Banglore');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1009', 'Shital', 10, TO_DATE('2024-10-09', 'YYYY-MM-DD'), 'Manglore');
+
+INSERT INTO Cust_Master (Cust_no, Cust_name, Qty_Ordered, Order_date, Cust_addr) 
+VALUES ('C1010', 'Sahil', 50, TO_DATE('2024-10-10', 'YYYY-MM-DD'), 'Banglore');
+
+SELECT * FROM cust_master;
+
+SELECT Cust_name
+FROM Cust_Master
+WHERE Cust_name LIKE '_a%';
+
+SELECT Cust_name, Cust_addr
+FROM Cust_Master
+WHERE Cust_addr LIKE 'M%';
+
+SELECT * FROM Cust_Master
+WHERE Cust_no IN ('C1002', 'C1005', 'C1007', 'C1008');
+
+SELECT Cust_name, Cust_addr
+FROM Cust_Master
+WHERE Cust_addr IN ('Banglore', 'Manglore');
+
+CREATE VIEW Customer_View AS
+SELECT Cust_no, Qty_Ordered, Order_date
+FROM Cust_Master;
