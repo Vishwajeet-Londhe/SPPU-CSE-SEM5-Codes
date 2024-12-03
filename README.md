@@ -1,8 +1,8 @@
 <h1 align="center">SPPU CSE Practical Codes</h1>
 
 <p align='center'>
-  <a href="https://learnverse.live">
-    SPPU IT Study Hub
+  <a href="https://whatsapp.com/channel/0029ValjFriICVfpcV9HFc3b">
+    Whastapp Channel for Quick Updates
   </a>
 </p>
 
