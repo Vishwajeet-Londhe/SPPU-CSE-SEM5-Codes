@@ -1,4 +1,15 @@
-# Semester 5
+<h1 align="center">SPPU CSE Practical Codes</h1>
 
-SPPU Computer Engineering 2019 Pattern Third Year-Sem 1 Lab Assignments Code with Honor AIML. (If this repo helped you fork it, do star it! :)
+<p align='center'>
+  <a href="https://learnverse.live">
+    SPPU IT Study Hub
+  </a>
+</p>
 
+**Join our Telegram channel [here!](https://t.me/SPPU_TE_BE_COMP)**
+
+<hr>
+<p align='center'><img width="50%" src="https://www.parthsali.me/meme.png"></img></p>
+<hr>
+
+> Click :star: if you like the repo. Pull Requests are highly appreciated.
