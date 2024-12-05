@@ -7,6 +7,12 @@
 </p>
 
 **Join our Telegram channel [here!](https://t.me/SPPU_TE_BE_COMP)**
+All TE Codes of following subjects available 
+
+1) CNS
+2) DBMS
+3) LP-1 ( SPOS, IOTES, HCI, DS )
+4) HONOR AIML
 
 <hr>
 <p align='center'><img width="50%" src="https://www.parthsali.me/meme.png"></img></p>
